@@ -1,30 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:todoey/Widgets/TaskTiles.dart';
+import 'package:provider/provider.dart';
 import 'package:todoey/Widgets/TaskLists.dart';
+import 'package:todoey/model/Task_Data.dart';
 import 'package:todoey/screens/addTaskScreen.dart';
 import 'package:todoey/model/Tasks.dart';
 
-class TaskScreen extends StatefulWidget {
-  const TaskScreen({Key? key}) : super(key: key);
-
-  @override
-  State<TaskScreen> createState() => _TaskScreenState();
-}
-
-class _TaskScreenState extends State<TaskScreen> {
-  List<Task> tasks = [
-    Task(
-      taskname: 'buy milk',
-    ),
-    Task(
-      taskname: 'buy eggs  ',
-    ),
-    Task(
-      taskname: 'buy bread',
-    ),
-  ];
-
-  @override
+class TaskScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.lightBlueAccent,
@@ -57,7 +38,7 @@ class _TaskScreenState extends State<TaskScreen> {
                   ),
                 ),
                 Text(
-                  '12 Task',
+                  ' ${Provider.of<TaskData>(context).tasks.length}Task',
                   style: TextStyle(
                     color: Colors.white,
                     fontSize: 18,
@@ -74,7 +55,7 @@ class _TaskScreenState extends State<TaskScreen> {
                   borderRadius: BorderRadius.only(
                       topLeft: Radius.circular(20),
                       topRight: Radius.circular(20))),
-              child: TaskListView(tasks),
+              child: TaskListView(),
             ),
           )
         ],
@@ -82,14 +63,7 @@ class _TaskScreenState extends State<TaskScreen> {
       floatingActionButton: FloatingActionButton(
         onPressed: () {
           showModalBottomSheet(
-            context: context,
-            builder: (context) => addTaskScreen((newTaskTitle) {
-              setState(() {
-                tasks.add(Task(taskname: newTaskTitle));
-              });
-            }),
-            isScrollControlled: true,
-          );
+              context: context, builder: (context) => addTaskScreen());
         },
         backgroundColor: Colors.lightBlueAccent,
         child: Icon(Icons.add),
