@@ -6,7 +6,7 @@ class TaskListTile extends StatelessWidget {
   bool? isChanged = false;
   String taskTitle = "";
   Function checkBoxCallBack;
-  Function longPressCallback;
+  VoidCallback longPressCallback;
 
   TaskListTile(
       {this.isChanged,
@@ -17,9 +17,7 @@ class TaskListTile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ListTile(
-      onLongPress: () {
-        longPressCallback;
-      },
+      onLongPress: longPressCallback,
       title: Text(
         '$taskTitle',
         style: TextStyle(
