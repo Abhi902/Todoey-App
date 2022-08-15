@@ -2,8 +2,28 @@ import 'package:flutter/material.dart';
 import 'package:todoey/Widgets/TaskTiles.dart';
 import 'package:todoey/Widgets/TaskLists.dart';
 import 'package:todoey/screens/addTaskScreen.dart';
+import 'package:todoey/model/Tasks.dart';
 
-class TaskScreen extends StatelessWidget {
+class TaskScreen extends StatefulWidget {
+  const TaskScreen({Key? key}) : super(key: key);
+
+  @override
+  State<TaskScreen> createState() => _TaskScreenState();
+}
+
+class _TaskScreenState extends State<TaskScreen> {
+  List<Task> tasks = [
+    Task(
+      taskname: 'buy milk',
+    ),
+    Task(
+      taskname: 'buy eggs  ',
+    ),
+    Task(
+      taskname: 'buy bread',
+    ),
+  ];
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -54,7 +74,7 @@ class TaskScreen extends StatelessWidget {
                   borderRadius: BorderRadius.only(
                       topLeft: Radius.circular(20),
                       topRight: Radius.circular(20))),
-              child: TaskListView(),
+              child: TaskListView(tasks),
             ),
           )
         ],
@@ -63,7 +83,11 @@ class TaskScreen extends StatelessWidget {
         onPressed: () {
           showModalBottomSheet(
             context: context,
-            builder: (context) => addTaskScreen(),
+            builder: (context) => addTaskScreen((newTaskTitle) {
+              setState(() {
+                tasks.add(Task(taskname: newTaskTitle));
+              });
+            }),
             isScrollControlled: true,
           );
         },
